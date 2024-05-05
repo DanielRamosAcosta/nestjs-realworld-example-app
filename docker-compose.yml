@@ -11,6 +11,7 @@ services:
 
   api:
     build: .
+    image: ghcr.io/danielramosacosta/nestjs-realworld-example-app:latest
     environment:
       DB_HOST: db
       DB_PORT: 3306
