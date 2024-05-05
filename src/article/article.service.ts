@@ -23,6 +23,7 @@ export class ArticleService {
   ) {}
 
   async findAll(userId: number, query: any): Promise<IArticlesRO> {
+    console.log(query)
     const user = userId ? await this.userRepository.findOneOrFail(userId, { populate: ['followers', 'favorites'] }) : undefined;
     const qb = this.articleRepository
       .createQueryBuilder('a')
@@ -67,6 +68,12 @@ export class ArticleService {
     }
 
     const articles = await qb.getResult();
+
+    for await(const article of articles) {
+      const userId = article.author.id
+      const articleUser = await this.userRepository.findOneOrFail(userId, { populate: ['followers', 'favorites'] })
+      article.author = articleUser
+    }
 
     return { articles: articles.map(a => a.toJSON(user)), articlesCount };
   }
