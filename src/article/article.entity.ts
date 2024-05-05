@@ -1,4 +1,4 @@
-import { ArrayType, Collection, Entity, EntityDTO, ManyToOne, OneToMany, PrimaryKey, Property, wrap } from '@mikro-orm/core';
+import { ArrayType, Collection, Entity, EntityDTO, ManyToOne, OneToMany, PrimaryKey, Property, wrap, Cascade } from '@mikro-orm/core';
 import slug from 'slug';
 
 import { User } from '../user/user.entity';
@@ -34,7 +34,7 @@ export class Article {
   @ManyToOne()
   author: User;
 
-  @OneToMany(() => Comment, comment => comment.article, { eager: true, orphanRemoval: true })
+  @OneToMany(() => Comment, comment => comment.article, { eager: true, orphanRemoval: true, cascade: [Cascade.REMOVE] })
   comments = new Collection<Comment>(this);
 
   @Property()

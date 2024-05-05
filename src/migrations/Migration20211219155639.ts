@@ -29,8 +29,8 @@ export class Migration20211219155639 extends Migration {
 
     this.addSql('alter table `article` add constraint `article_author_id_foreign` foreign key (`author_id`) references `user` (`id`) on update cascade;');
 
-    this.addSql('alter table `comment` add constraint `comment_article_id_foreign` foreign key (`article_id`) references `article` (`id`) on update cascade;');
-    this.addSql('alter table `comment` add constraint `comment_author_id_foreign` foreign key (`author_id`) references `user` (`id`) on update cascade;');
+    this.addSql('alter table `comment` add constraint `comment_article_id_foreign` foreign key (`article_id`) references `article` (`id`) on update cascade on delete cascade;');
+    this.addSql('alter table `comment` add constraint `comment_author_id_foreign` foreign key (`author_id`) references `user` (`id`) on update cascade on delete cascade;');
 
     this.addSql('alter table `user_favorites` add constraint `user_favorites_user_id_foreign` foreign key (`user_id`) references `user` (`id`) on update cascade on delete cascade;');
     this.addSql('alter table `user_favorites` add constraint `user_favorites_article_id_foreign` foreign key (`article_id`) references `article` (`id`) on update cascade on delete cascade;');
