@@ -4,6 +4,18 @@ import { User } from '../user/user.decorator';
 import { IProfileRO } from './profile.interface';
 import { ProfileService } from './profile.service';
 
+function addImage(profile: IProfileRO): IProfileRO {
+  return {
+    ...profile,
+    profile: {
+      ...profile.profile,
+      image:
+        profile.profile.image ||
+        'https://static.productionready.io/images/smiley-cyrus.jpg',
+    }
+  }
+}
+
 @ApiBearerAuth()
 @ApiTags('profiles')
 @Controller('profiles')
@@ -13,7 +25,8 @@ export class ProfileController {
 
   @Get(':username')
   async getProfile(@User('id') userId: number, @Param('username') username: string): Promise<IProfileRO> {
-    return this.profileService.findProfile(userId, username);
+    const profile = await this.profileService.findProfile(userId, username);
+    return addImage(profile);
   }
 
   @Post(':username/follow')

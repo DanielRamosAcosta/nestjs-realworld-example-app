@@ -17,6 +17,18 @@ import { UserService } from './user.service';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+function addImageToUser(user:IUserRO): IUserRO {
+  return {
+    ...user,
+    user: {
+      ...user.user,
+      image:
+        user.user.image ||
+        'https://static.productionready.io/images/smiley-cyrus.jpg',
+    },
+  };
+}
+
 @ApiBearerAuth()
 @ApiTags('user')
 @Controller()
@@ -27,15 +39,7 @@ export class UserController {
   async findMe(@User('email') email: string): Promise<IUserRO> {
     const user = await this.userService.findByEmail(email);
 
-    return {
-      ...user,
-      user: {
-        ...user.user,
-        image:
-          user.user.image ||
-          'https://static.productionready.io/images/smiley-cyrus.jpg',
-      },
-    };
+    return addImageToUser(user)
   }
 
   @Put('user')
@@ -49,7 +53,8 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('users')
   async create(@Body('user') userData: CreateUserDto) {
-    return this.userService.create(userData);
+    const user = await this.userService.create(userData)
+    return addImageToUser(user)
   }
 
   @Delete('users/:email')
