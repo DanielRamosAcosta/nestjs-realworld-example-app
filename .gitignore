@@ -21,3 +21,4 @@ node_modules
 # code testing coverage
 coverage
 .yarn
+.vscode
