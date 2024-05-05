@@ -1,11 +1,12 @@
-name: tests
+name: ci
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
