@@ -26,5 +26,5 @@ EXPOSE 3000
 
 CMD ./run.sh
 
-HEALTHCHECK --interval=1s --timeout=3s \
+HEALTHCHECK --interval=10s --timeout=3s \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
