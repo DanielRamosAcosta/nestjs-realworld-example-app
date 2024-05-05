@@ -21,3 +21,4 @@ jobs:
         with:
           push: true
           tags: ghcr.io/danielramosacosta/nestjs-realworld-example-app:latest
+          platforms: linux/amd64,linux/arm64
