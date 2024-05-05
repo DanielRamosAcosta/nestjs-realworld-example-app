@@ -1,8 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ITagsRO } from './tag.interface';
 import { TagService } from './tag.service';
 
@@ -10,11 +7,22 @@ import { TagService } from './tag.service';
 @ApiTags('tags')
 @Controller('tags')
 export class TagController {
-
   constructor(private readonly tagService: TagService) {}
 
   @Get()
   async findAll(): Promise<ITagsRO> {
     return this.tagService.findAll();
+  }
+}
+
+@ApiBearerAuth()
+@ApiTags('meta')
+@Controller('health')
+export class HealthController {
+  @Get()
+  async health(): Promise<{ status: string }> {
+    return {
+      status: 'ok',
+    };
   }
 }
